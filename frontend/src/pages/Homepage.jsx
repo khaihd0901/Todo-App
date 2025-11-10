@@ -1,6 +1,6 @@
 import AddTask from '@/components/AddTask'
 import Header from '@/components/Header'
-import Filter from '@/components/FIlter'
+import StateAndFIlter from '@/components/StateAndFIlter'
 import React from 'react'
 import TaskList from '@/components/TaskList'
 import Pagination from '@/components/Pagination'
@@ -9,10 +9,11 @@ import DateTimeFilter from '@/components/DateTimeFilter'
 const Homepage = () => {
   return (
     <div className="min-h-screen w-full relative">
+      {/* Radial Gradient Background from Bottom */}
       <div
         className="absolute inset-0 z-0"
         style={{
-          background: "radial-gradient(125% 125% at 50% 90%, #000000 40%, #0d1a36 100%)",
+          background: "radial-gradient(125% 125% at 50% 90%, #fff 40%, #475569 100%)",
         }}
       />
       <div className='container pt-8 mx-auto relative z-10'>
@@ -21,7 +22,7 @@ const Homepage = () => {
 
           <AddTask />
 
-          <Filter />
+          <StateAndFIlter />
 
           <TaskList />
 
@@ -33,8 +34,8 @@ const Homepage = () => {
 
         </div>
       </div>
-
     </div>
+
   )
 }
 
