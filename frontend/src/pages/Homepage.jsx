@@ -1,12 +1,46 @@
 import AddTask from '@/components/AddTask'
 import Header from '@/components/Header'
 import StateAndFIlter from '@/components/StateAndFIlter'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import TaskList from '@/components/TaskList'
 import Pagination from '@/components/Pagination'
 import DateTimeFilter from '@/components/DateTimeFilter'
+import { toast } from 'sonner'
+import api from '@/lib/axios'
 
 const Homepage = () => {
+  const [taskBuffer, setTaskBuffer] = useState([]);
+  const [activeCount, setActiveCount] = useState(0);
+  const [completeCount, setCompleteCount] = useState(0);
+  const [filter, setFilter] = useState('all')
+
+  useEffect(() => {
+    fetchTasks();
+  }, [])
+  const fetchTasks = async () => {
+    try {
+      const res = await api.get("/tasks");
+      setTaskBuffer(res.data.tasks);
+      setActiveCount(res.data.activeCount);
+      setCompleteCount(res.data.completeCount);
+    } catch (error) {
+      console.error("error when call task api: ", error)
+      toast.error("Error when finding tasks")
+    }
+  }
+  const filteredTask = taskBuffer.filter((task) => {
+    switch (filter) {
+      case 'active':
+        return task.status === 'active';
+      case 'completed':
+        return task.status === 'complete'
+      default: 
+        return true;
+    }
+  })
+  const handleTaskChanged = () =>{
+    fetchTasks();
+  }
   return (
     <div className="min-h-screen w-full relative">
       {/* Radial Gradient Background from Bottom */}
@@ -20,11 +54,16 @@ const Homepage = () => {
         <div className="w-full max-w-2xl p-6 mx-auto space-y-6">
           <Header />
 
-          <AddTask />
+          <AddTask handleTaskChanged={handleTaskChanged} />
 
-          <StateAndFIlter />
+          <StateAndFIlter
+            filter={filter}
+            setFilter={setFilter}
+            activeCount={activeCount}
+            completeCount={completeCount}
+          />
 
-          <TaskList />
+          <TaskList filteredTask={filteredTask} filter={filter} handleTaskChanged={handleTaskChanged} />
 
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
             <Pagination />

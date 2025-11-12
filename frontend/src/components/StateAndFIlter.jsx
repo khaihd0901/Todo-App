@@ -4,7 +4,7 @@ import React from 'react'
 import { Button } from './ui/button'
 import { Filter } from 'lucide-react'
 
-const FIlter = ({completedTask = 0, activeTask = 0, filter = "all"}) => {
+const FIlter = ({completeCount = 0, activeCount = 0, filter = "all", setFilter}) => {
   return (
     <div className='flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center '>
       <div className="flex gap-3">
@@ -12,14 +12,14 @@ const FIlter = ({completedTask = 0, activeTask = 0, filter = "all"}) => {
         variant="secondary"
         className='bg-white/50 text-accent-foreground border-info/20'
         >
-          {activeTask} {FilterType.active}
+          {activeCount} {FilterType.active}
         </Badge>
 
         <Badge
         variant="secondary"
         className='bg-white/50 text-success border-success/20'
         >
-          {completedTask} {FilterType.completed}
+          {completeCount} {FilterType.completed}
         </Badge>
       </div>
 
@@ -31,6 +31,7 @@ const FIlter = ({completedTask = 0, activeTask = 0, filter = "all"}) => {
                 variant={filter === type ? 'gradient' : 'ghost'}
                 size='sm'
                 className='capitalize'
+                onClick={()=> setFilter(type)}
               >
                 <Filter className='size-4'/>
                 {FilterType[type]}

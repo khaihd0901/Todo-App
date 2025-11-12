@@ -2,25 +2,7 @@ import React from 'react'
 import TaskEmptyState from './TaskEmptyState';
 import TaskCard from './TaskCard';
 
-const TaskList = () => {
-  let filter = 'all';
-  const filteredTask = [
-    {
-      _id: "1",
-      title: "hoc react",
-      description:"abc",
-      status:"active",
-      createdAt:new Date()
-    },
-    {
-      _id: "2",
-      title: "hoc js",
-      description:"abc",
-      status:"completed",
-      completeAt:new Date(),
-      createdAt:new Date()
-    }
-  ];
+const TaskList = ({filteredTask, filter, handleTaskChanged}) => {
   if (!filteredTask || filteredTask.length === 0){
     return <TaskEmptyState filter = {filter}/>
   }
@@ -31,6 +13,7 @@ const TaskList = () => {
           key={task._id ?? index}
           task={task}
           index={index}
+          handleTaskChanged={handleTaskChanged}
         />
       ))}
     </div>
