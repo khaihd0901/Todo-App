@@ -12,14 +12,16 @@ const Homepage = () => {
   const [taskBuffer, setTaskBuffer] = useState([]);
   const [activeCount, setActiveCount] = useState(0);
   const [completeCount, setCompleteCount] = useState(0);
-  const [filter, setFilter] = useState('all')
+  const [filter, setFilter] = useState('all');
+  const [dateQuery, setDateQuery] = useState('today')
+
 
   useEffect(() => {
     fetchTasks();
-  }, [])
+  }, [dateQuery])
   const fetchTasks = async () => {
     try {
-      const res = await api.get("/tasks");
+      const res = await api.get(`/tasks?filter=${dateQuery}`);
       setTaskBuffer(res.data.tasks);
       setActiveCount(res.data.activeCount);
       setCompleteCount(res.data.completeCount);
@@ -34,11 +36,11 @@ const Homepage = () => {
         return task.status === 'active';
       case 'completed':
         return task.status === 'complete'
-      default: 
+      default:
         return true;
     }
   })
-  const handleTaskChanged = () =>{
+  const handleTaskChanged = () => {
     fetchTasks();
   }
   return (
@@ -61,15 +63,11 @@ const Homepage = () => {
             setFilter={setFilter}
             activeCount={activeCount}
             completeCount={completeCount}
+            dateQuery={dateQuery}
+            setDateQuery={setDateQuery}
           />
 
           <TaskList filteredTask={filteredTask} filter={filter} handleTaskChanged={handleTaskChanged} />
-
-          <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-            <Pagination />
-
-            <DateTimeFilter />
-          </div>
 
         </div>
       </div>

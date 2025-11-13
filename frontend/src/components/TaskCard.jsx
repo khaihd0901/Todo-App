@@ -75,7 +75,7 @@ const TaskCard = ({ task, index, handleTaskChanged }) => {
           variant='ghost'
           size='icon'
           className={cn(
-            "flex-shrink-0 size-8 rounded-null transition-all duration-200",
+            "flex-shrink-0 size-8 rounded-null transition-all duration-200 cursor-pointer",
             task.status === "complete" ?
               "text-success hover:text-success/80" :
               "text-muted-foreground hover:text-primary"
